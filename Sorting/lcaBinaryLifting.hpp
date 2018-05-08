@@ -38,25 +38,23 @@ class LcaBinaryLifting {
     };
     
     V _p; // Вектор предков узлов. Размер n. У корня _p[r] == r.
-    T root; // Корень дерева.
     std::vector<T> _d; // Вектор глубин узлов.
     
     // dp[i][v] — номер вершины, в которую мы придем если пройдем из вершины v вверх по подвешенному дереву 2^i шагов,
     // причем если мы пришли в корень, то мы там и останемся.
-    // Размер n х пол log(n)).
+    // Размер n х потолок log(n)).
     Matrix _dp;
     
     // Препроцессинг. O(n*log(n));
     void preprocess_() {
         fillDepth();
-        
         fillDepthLog();
     }
     
     // Вычисление вектора глубин дерева _d. За счет динамики O(n).
     void fillDepth() {
         for (T i = 0; i < _p.size(); i++) {
-            if(_d[i] == -1) {
+            if (_d[i] == -1) {
                 _d[i] = depth_(i);
             }
         }
@@ -65,10 +63,6 @@ class LcaBinaryLifting {
     // Вычисление глубины узла. O(n).
     T depth_(T i) {
         T p = _p[i];
-        if(p == -1) {
-            p = i;
-            _p[i] = i;
-        }
         if (p == i) {
             return 0;
         }
@@ -92,21 +86,21 @@ class LcaBinaryLifting {
     }
     
     // Вернет l: 2^l <= n ; 2^(l+1) > n
-    size_t log_(T n) {
-        size_t l = 1;
-        do {
-            l++;
-        } while ((1 << l) <= n); // 2^l
-        return l - 1;
+    size_t log_(T i) const {
+        // вычисляем целочисленный логарифм 2, меньший или равный i
+        size_t log = 1;
+        while (i >> log != 0) log++;
+        return log - 1;
     }
     
 public:
     // Инициализация вектором предков. Размер n.  У корня _p[r] == -1. O(n*log(n))
-    LcaBinaryLifting(V p) : _p(p), root(-1), _d(p.size(), -1), _dp(log_(p.size()), p.size()) {
+    LcaBinaryLifting(V p) : _p(p), _d(p.size(), -1), _dp(log_(p.size()) + 1, p.size()) {
         preprocess_();
         
+        std::cout << "[";
         for( auto i = 0; i < p.size(); i++) std::cout << i << " ";
-        std::cout << "\nparent:\n" << _p;
+        std::cout << "]\nparent:\n" << _p;
         std::cout << "\ndepth:\n" << _d;
         std::cout << "\n\nDepthLog:\n";
         T* row;
@@ -144,7 +138,8 @@ public:
         assert(_d[u] == _d[v]);
         
         if (u == v) {
-            std::cout << _dp(0, u) << "\n\n";
+            // u - прямой предок v.
+            std::cout << u << "\n\n";
             return u;
         }
         

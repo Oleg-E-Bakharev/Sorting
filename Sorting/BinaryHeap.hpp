@@ -48,7 +48,8 @@ template <typename T, typename Stack = std::vector<T> > class BinaryHeap {
 		}
 	}
 	
-	// Создает из неупорядоченного массива кучу.
+	// Создает из неупорядоченного массива кучу. O(n)
+    // https://neerc.ifmo.ru/wiki/index.php?title=Двоичная_куча
 	void fixHeap_() {
 		for (size_t k = size() / 2; k != -1; k--) {
 			fixDown_(k);

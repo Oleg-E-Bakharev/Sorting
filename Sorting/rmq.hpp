@@ -10,11 +10,11 @@
 #define rmq_hpp
 
 #include <vector>
-#include <cmath>
 #include <cassert>
 
 // Range Minimum Query
 // Вычисляет минимум на отрезке массива за O(1) при препроцессинге за O(n*log(n))
+// https://habr.com/post/114980/
 template<typename T, typename V = std::vector<T>>
 class RMQ {
     std::vector<std::vector<T>> _st; // Sparce Table. Разреженная таблица ST[k][i] есть минимум на полуинтервале [A[i], A[i+2^k])
@@ -48,12 +48,19 @@ class RMQ {
         }
     }
     
+    size_t log2_(size_t i) const {
+        // вычисляем целочисленный логарифм 2, меньший или равный i
+        size_t log = 1;
+        while (1 << log < i) log++;
+        return log - 1;
+    }
+    
     // Заполняет _log2 на размер size.
     void prepareLog2_(size_t size) {
         _log2.reserve(size);
         _log2.push_back(0);
         for (size_t i = 1; i <= size; i++) {
-            _log2.push_back(log2(i));
+            _log2.push_back(log2_(i));
         }
     }
 	

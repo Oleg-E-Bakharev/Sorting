@@ -14,12 +14,14 @@ using namespace std;
 
 void testLcaBinaryLifting()
 {
-    // 0  1  2  3      4       5  6  7  8  9
-    std::vector<size_t> v {1, 3, 3, 4, (size_t)-1, 4, 5, 5, 7, 6};
+    //                     0  1  2  3  4  5  6  7  8  9
+//    std::vector<size_t> v {1, 3, 3, 4, 4, 4, 5, 5, 7, 6};
+    std::vector<size_t> v {1, 2, 3, 4, 5, 6, 7, 8, 9, 9};
     
     auto lca = makeLcaBL(v);
     
     lca.query(0, 3);
     lca.query(0, 8);
     lca.query(1, 9);
+    lca.query(9, 8);
 }

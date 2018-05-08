@@ -220,14 +220,14 @@ int main(int argc, const char * argv[]) {
 //    testDeque();
 //    testBinaryHeap();
 //	testHashTable();
-	testHashArray();
+//    testHashArray();
 	
 //	testBitStream();
 //    cout << "=======================================\n";
 //    testBitMemoryStream();
     
 //    testRMQ();
-//    testLcaBinaryLifting();
+    testLcaBinaryLifting();
 	return 0;
 }
 
