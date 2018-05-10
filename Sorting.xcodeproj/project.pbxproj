@@ -48,6 +48,7 @@
 		C3CCDA8C1BDE1728003E3F91 /* testSort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3CCDA8A1BDE1728003E3F91 /* testSort.cpp */; };
 		C3CCDA8F1BDE2BDF003E3F91 /* list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3CCDA8D1BDE2BDF003E3F91 /* list.cpp */; };
 		C3CCDA921BDE33C1003E3F91 /* queue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3CCDA901BDE33C1003E3F91 /* queue.cpp */; };
+		C3CFE43520A4AAA900CD4FE1 /* ImplicitTreap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3CFE43320A4AAA900CD4FE1 /* ImplicitTreap.cpp */; };
 		C3E070311D6B231D00E8DCDC /* RBT2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3E0702F1D6B231D00E8DCDC /* RBT2.cpp */; };
 		C3EC07D41CA451CD00FAB197 /* rbt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3EC07D21CA451CD00FAB197 /* rbt.cpp */; };
 		C3F152CA1BCB9E9F00ED745A /* bubbleSort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3F152C81BCB9E9F00ED745A /* bubbleSort.cpp */; };
@@ -162,6 +163,8 @@
 		C3CCDA8E1BDE2BDF003E3F91 /* list.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = list.hpp; sourceTree = "<group>"; };
 		C3CCDA901BDE33C1003E3F91 /* queue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = queue.cpp; sourceTree = "<group>"; };
 		C3CCDA911BDE33C1003E3F91 /* queue.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = queue.hpp; sourceTree = "<group>"; };
+		C3CFE43320A4AAA900CD4FE1 /* ImplicitTreap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImplicitTreap.cpp; sourceTree = "<group>"; };
+		C3CFE43420A4AAA900CD4FE1 /* ImplicitTreap.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ImplicitTreap.hpp; sourceTree = "<group>"; };
 		C3E0702F1D6B231D00E8DCDC /* RBT2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RBT2.cpp; sourceTree = "<group>"; };
 		C3E070301D6B231D00E8DCDC /* RBT2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RBT2.hpp; sourceTree = "<group>"; };
 		C3E5ABFF1BED1312006D6ECE /* shellSort.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shellSort.h; sourceTree = "<group>"; };
@@ -286,6 +289,8 @@
 				C3E0702F1D6B231D00E8DCDC /* RBT2.cpp */,
 				C37EBF4D1F4F529D00BBE2F3 /* RandomBST.hpp */,
 				C37EBF4C1F4F529D00BBE2F3 /* RandomBST.cpp */,
+				C3CFE43420A4AAA900CD4FE1 /* ImplicitTreap.hpp */,
+				C3CFE43320A4AAA900CD4FE1 /* ImplicitTreap.cpp */,
 				C38DE4D81DAD4CE5001E8190 /* TreeInfo.hpp */,
 				C38DE4D71DAD4CE5001E8190 /* TreeInfo.cpp */,
 				7CD169DD1D97CD6000651BF3 /* 23Tree.hpp */,
@@ -399,6 +404,7 @@
 				7C4F18CA1FC243EC004EA835 /* MapSet.cpp in Sources */,
 				C39B75321DC3C39100B68256 /* BinaryTree.cpp in Sources */,
 				C34154B61F97697A00C3AC46 /* sparseVector.cpp in Sources */,
+				C3CFE43520A4AAA900CD4FE1 /* ImplicitTreap.cpp in Sources */,
 				7CD169DE1D97CD6000651BF3 /* 23Tree.cpp in Sources */,
 				C376703E1DD3A1DE007892ED /* LLRB2.cpp in Sources */,
 				C39787C61D89AC1800ABF729 /* Array.cpp in Sources */,

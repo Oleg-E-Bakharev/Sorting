@@ -65,7 +65,7 @@ class RBTree {
 	// Фиктивный узел являющийся одновременно и родителем root и всеми листьями.
     Node null{};
     
-    typedef Node* Link;
+    using Link = Node*;
     Link root = &null;
     
     void setRoot( Link x ) {
