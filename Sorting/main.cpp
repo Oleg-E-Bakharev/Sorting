@@ -32,6 +32,7 @@
 #include "BinaryTree.hpp"
 #include "SplayTree.hpp"
 #include "RandomBST.hpp"
+#include "ImplicitTreap.hpp"
 #include "eratosfen.hpp"
 #include "RBT2.hpp"
 #include "ForwardList.hpp"
@@ -208,6 +209,7 @@ int main(int argc, const char * argv[]) {
 //    testEratosfen(1000);
 //    testTree();
 //    testRandomBST();
+    testImplicitTreap();
 //    testSplayTree();
 //    testAWLTree();
 //	testMapSet();
@@ -227,7 +229,7 @@ int main(int argc, const char * argv[]) {
 //    testBitMemoryStream();
     
 //    testRMQ();
-    testLcaBinaryLifting();
+//    testLcaBinaryLifting();
 	return 0;
 }
 

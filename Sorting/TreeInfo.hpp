@@ -97,6 +97,7 @@ public:
 		using namespace std;
         if (t._root) {
             t.out_(t._root, os);
+            os << "============\n";
         } else {
             os << "<null>";
         }

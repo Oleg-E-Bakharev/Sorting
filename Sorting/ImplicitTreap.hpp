@@ -61,7 +61,8 @@ template <typename T> class ImplicitTreap {
             if (pos < size_(n->l)) {
                 n = n->l;
             } else {
-                pos -= n->size;
+                pos -= size_(n->l) + 1;
+                assert(pos < size());
                 n = n->r;
             }
         }
@@ -72,15 +73,16 @@ template <typename T> class ImplicitTreap {
     void split_(Link n, size_t pos, Link& l, Link& r) {
         if (!n) {
             l = r = nullptr;
-        } else if (pos < n->size) {
+        } else if (pos <= size_(n->l)) {
             split_(n->l, pos, l, n->l);
-            resize_(n->l);
+//            resize_(n->l);
             r = n;
         } else {
-            split_(n->r, n->size - pos, n->r, r);
-            resize(n->r);
+            split_(n->r, pos - size_(n->l) - 1, n->r, r);
+//            resize_(n->r);
             l = n;
         }
+        resize_(n);
     }
     
     // Слияние поддеревьев по приоритету.
@@ -107,10 +109,11 @@ template <typename T> class ImplicitTreap {
     
 public:
     ImplicitTreap() {}
+    ImplicitTreap(std::initializer_list<T>&& il) { insert(std::move(il)); }
     
     size_t size() const { return size_(_root); }
     
-    void insert(const T& item, size_t pos) {
+    void insertAt(const T& item, size_t pos) {
         assert(pos <= size_(_root));
         Link l, r;
         split_(_root, pos, l, r);
@@ -125,9 +128,9 @@ public:
         }
     }
     
-    void insertAt(std::initializer_list<T>&& il) {
+    void insert(std::initializer_list<T>&& il) {
         for (const T& t : il) {
-            insert(t);
+            insertAt(t, size());
         }
     }
     
@@ -135,11 +138,12 @@ public:
         Link l, m, r;
         split_(_root, pos, l, r);
         split_(r, 1, m, r);
+        assert(size_(m) == 1);
         merge_(_root, l, r);
     }
     
-    T& operator[](size_t pos) { return *searchAt_(pos); }
-    const T& operator[](size_t pos) const { return *searchAt_(pos); }
+    T& operator[](size_t pos) { return searchAt_(pos)->item; }
+    const T& operator[](size_t pos) const { return *searchAt_(pos)->item; }
     
     TreeInfo<Link> info() const { return treeInfo(_root); }
     
