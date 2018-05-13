@@ -33,4 +33,22 @@ void testImplicitTreap()
     std::cout << treeInfo;
     tree.insertAt(9, 9);
     std::cout << treeInfo;
+    
+    std::cout << tree;
+    
+//    tree.shiftLeft(4);
+//    std::cout << tree;
+//
+//    tree.shiftRight(1);
+//    std::cout << tree;
+    
+//    tree.reverse(1, 9);
+//    std::cout << treeInfo;
+//    std::cout << tree;
+//    std::cout << treeInfo;
+
+    tree.reverse();
+    std::cout << treeInfo;
+    std::cout << tree;
+    std::cout << treeInfo;
 }
