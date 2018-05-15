@@ -32,7 +32,7 @@ template <typename T> class ImplicitTreap {
         Node* r = nullptr; // Правый потомок.
         bool reversed = false; // Флаг инверсиии для обращения элементов.
         
-        Node(const T& item):item(item) {}
+        Node(const T& item, size_t priority):item(item), priority(priority) {}
         
         friend std::ostream& operator << (std::ostream& os, const Node& it) {
             os << it.item;
@@ -164,8 +164,6 @@ template <typename T> class ImplicitTreap {
 
         bool operator!=(const Iterator& it) { return _depth.size() != 0; }
     };
-    
-    friend class Iterator;
 
 public:
     using iterator = Iterator;
@@ -179,7 +177,7 @@ public:
         assert(pos <= size_(_root));
         Link l, r;
         split_(_root, pos, l, r);
-        merge_(_root, l, new Node(item));
+        merge_(_root, l, new Node(item, _random()));
         merge_(_root, _root, r);
     }
     
@@ -202,6 +200,7 @@ public:
         split_(r, 1, m, r);
         assert(size_(m) == 1);
         merge_(_root, l, r);
+        delete m;
     }
     
     void shiftLeft(size_t offset) {
