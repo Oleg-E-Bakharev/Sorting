@@ -78,7 +78,7 @@ void measureSort(Container& array, Function func, const char* message ) {
 template <typename It, typename Function>
 void measureIterSort(It begin, It end, Function func, const char* message ) {
 	//    startPerformanceCounter();
-    for(auto i = begin; i != end; i++) cout << *i << ", "; cout << "\n";
+//    for(auto i = begin; i != end; i++) cout << *i << ", "; cout << "\n";
 	auto start = high_resolution_clock::now();
     
 	func(begin, end);
@@ -134,7 +134,8 @@ void quickSortWrap(Iter begin, Iter end) {
 
 void testSorting()
 {
-    const int N = 10;//1000000;
+    const int N = 10000000;
+//    const int N = 10;
 //    auto a = monotonicSequence<vector<int>>(N, -N/2); //randomSequence<array<int, 100>>(100, -100, 100);
     auto a = monotonicSequence<vector<int>>(N, 0);
 //    std::reverse(&a[N/2], (&a.back()) + 1);
@@ -177,7 +178,10 @@ void testSorting()
     measureIterSort(a.begin(), a.end(), quickSortWrap<sortIter>, "quickSort: ");
 
     randomize(a);
-    measureIterSort(a.begin(), a.end(), fastSort<sortIter>, "quickSort: ");
+    measureIterSort(a.begin(), a.end(), fastSort<sortIter, fatPartition>, "fatSort: ");
+
+    randomize(a);
+    measureIterSort(a.begin(), a.end(), fastSort<sortIter>, "fastSort: ");
 
 //    randomize(a);
 //    measureIterSort(a.begin(), a.end(), stableSortWrap<sortIter>, "stdStableSort: ");
@@ -198,10 +202,10 @@ void testSorting()
 
 int main(int argc, const char * argv[]) {
 	randomInit();
-//	testCountingSort();
+//    testCountingSort();
 //    testLSD();
 //    testMSD();
-//	stringSortCompare();
+    stringSortCompare();
 //    testMSDQSort();
 //    testSparseVector();
 //    testSorting();
@@ -209,7 +213,7 @@ int main(int argc, const char * argv[]) {
 //    testEratosfen(1000);
 //    testTree();
 //    testRandomBST();
-    testImplicitTreap();
+//    testImplicitTreap();
 //    testSplayTree();
 //    testAWLTree();
 //	testMapSet();

@@ -33,10 +33,10 @@ auto distributeOnDigit(Iterator begin, Iterator end, const Digitizer& digitizer)
 
 //    size_t offset[digitizer.size + 1]; // Вспомогательный массив счётчиков.
 //    size_t* counter = offset + 1; // Массив счётчиков, сдвинутый относительно offsets на 1.
-	std::vector<size_t> offset(digitizer.size + 1); // Вспомогательный массив счётчиков.
+	std::vector<size_t> offset(digitizer.size + 1, 0); // Вспомогательный массив счётчиков.
 	auto counter = offset.begin() + 1; // Массив счётчиков, сдвинутый относительно offsets на 1.
 
-    for (size_t i = 0; i < digitizer.size + 1; ++i) offset[i] = 0;
+//    for (size_t i = 0; i < digitizer.size + 1; ++i) offset[i] = 0;
     for (Iterator it = begin; it != end; ++it) counter[convert.digit(*it)]++; // conter[i] содержит количество элементов, равных i
     for (size_t i = 1; i < digitizer.size - 1; ++i) counter[i] += counter[i-1]; // counter[i] (кроме последнего) содержит количество элементов, <= i
         

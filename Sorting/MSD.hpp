@@ -44,11 +44,11 @@ auto msdSort(Iterator begin, Iterator end, const Digitizer& digitizer) -> std::v
 //    size_t base[digitizer.size + 3]; // Вспомогательный массив счётчиков.
 //	size_t* offset = base + 1; // Массив счётчиков, сдвинутый относительно offsets на 1.
 //    size_t* counter = base + 2; // Массив счётчиков, сдвинутый относительно offsets на 2.
-	std::vector<size_t> base(digitizer.size + 2); // Вспомогательный массив счётчиков.
+	std::vector<size_t> base(digitizer.size + 2, 0); // Вспомогательный массив счётчиков.
 	auto offset = base.begin() + 1; // Массив счётчиков, сдвинутый относительно offsets на 1.
 	auto counter = base.begin() + 2; // Массив счётчиков, сдвинутый относительно offsets на 2.
 
-    for (size_t i = 0; i < digitizer.size + 1; ++i) offset[i] = 0;
+//    for (size_t i = 0; i < digitizer.size + 1; ++i) offset[i] = 0;
     for (Iterator it = begin; it != end; ++it) counter[convert.digit(*it)]++; // conter[i] содержит количество элементов, равных i
     for (size_t i = 1; i < digitizer.size - 1; ++i) counter[i] += counter[i-1]; // counter[i] (кроме последнего) содержит количество элементов, <= i
         
@@ -67,7 +67,7 @@ auto msdSort(Iterator begin, Iterator end, const Digitizer& digitizer) -> std::v
 			if (base[i] - base[i-1] > 1) {
 				digitizer.setStep(step + 1);
 				auto nextBegin = result.begin() + base[i-1];
-				auto n = nextBegin + 1;
+				//auto n = nextBegin + 1;
 				auto nextEnd = result.begin() + base[i];
 				std::vector<Ptr> partialSorted = msdSort(nextBegin, nextEnd, digitizer);
 				for (Ptr ptr : partialSorted) *(nextBegin++) = ptr;
