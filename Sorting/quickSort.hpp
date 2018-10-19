@@ -62,25 +62,6 @@ inline It hoarePartition(It begin, It end) {
     return end;
 }
 
-// 3-way partition возвращает a[lo..hi) == pivot
-template <typename It>
-inline std::pair<It, It> fatPartition(It begin, It end)
-{
-    It median = medianPos(begin, end - 1);
-    std::swap(*begin, *median);
-    auto pivot = *begin;
-    It lo = begin, hi = end;
-    for (It i = begin + 1 ; hi - i > 0;) {
-        if (*i < pivot) {
-          std::swap(*(lo++), *(i++));
-        }
-        else if (*i > pivot) {
-            std::swap(*i, *(--hi)); }
-        else i++;
-    } // теперь a[begin..lo] < pivot = a[lo..hi) < a[hi, end)
-    return {lo, hi - 1};
-}
-
 template <typename It>
 void quickSort(It begin, It end) {
     if (end - begin > 1) {
@@ -106,6 +87,25 @@ int select( It begin, It end, T k)
 		}
 	}
 	return array[k];
+}
+
+// 3-way partition возвращает a[lo..hi) == pivot
+template <typename It>
+inline std::pair<It, It> fatPartition(It begin, It end)
+{
+    It median = medianPos(begin, end - 1);
+    std::swap(*begin, *median);
+    auto pivot = *begin;
+    It lo = begin, hi = end;
+    for (It i = begin + 1 ; hi - i > 0;) {
+        if (*i < pivot) {
+            std::swap(*(lo++), *(i++));
+        }
+        else if (*i > pivot) {
+            std::swap(*i, *(--hi)); }
+        else i++;
+    } // теперь a[begin..lo] < pivot = a[lo..hi) < a[hi, end)
+    return {lo, hi - 1};
 }
 
 // Bentley & McIlroy 1993
@@ -150,38 +150,6 @@ inline void sort3(It begin, It mid, It end) {
     if (*mid < *begin)  std::swap(*begin, *mid);
     if (*end < *mid) std::swap(*mid, *end);
 }
-
-//template <typename It>
-//void fatSort(It begin, It end) {
-//
-//    size_t difference = end - begin;
-//    switch (difference) {
-//        case 0:
-//        case 1:
-//            return;
-//
-//        case 2:
-//            if (*--end < *begin) std::swap(*begin, *end);
-//            return;
-//
-//        case 3:
-//            sort3(begin, begin + 1, --end);
-//            return;
-//
-//        default:
-//            break;
-//    }
-//
-//    if (difference < 30) {
-//        insertionSort(begin, end);
-//        return;
-//    }
-//
-//    pair<It,It> mid = fatPartition(begin, end);
-//
-//    fatSort(begin, mid.first);
-//    fatSort(mid.second + 1, end);
-//}
 
 template <typename It, std::pair<It, It> partFunc(It, It) = fatBMPartition>
 void fastSort(It begin, It end) {

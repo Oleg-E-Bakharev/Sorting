@@ -14,10 +14,14 @@
 using namespace std;
 
 struct StringDigitizer {
-	char operator()(const string& str, size_t pos) const {
+	inline char operator()(const string& str, size_t pos) const {
 		if (pos < str.size()) return str[pos];
 		return 0;
 	}
+    
+    static inline char digit (const std::string& str, size_t pos) {
+        return (pos < str.size()) ? str[pos] : 0;
+    }
 };
 
 void testMSDQSort()

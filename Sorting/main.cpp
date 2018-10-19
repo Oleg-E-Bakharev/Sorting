@@ -52,6 +52,7 @@
 //#include "MSDQSortDebug.hpp"
 #include "MSDQSort.hpp"
 #include "LSD.hpp"
+#include "LSD3.hpp"
 #include "sparseVector.hpp"
 #include "StringSortCompare.hpp"
 #include "MapSet.hpp"
@@ -203,7 +204,7 @@ void testSorting()
 int main(int argc, const char * argv[]) {
 	randomInit();
 //    testCountingSort();
-//    testLSD();
+//    testLSD3();
 //    testMSD();
     stringSortCompare();
 //    testMSDQSort();
