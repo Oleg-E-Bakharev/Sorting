@@ -37,15 +37,15 @@ public:
     size_t step() const { return _step; }
     void setStep(size_t step) const {_step = step;}
     
-    size_t operator()(const IPAddress& s) const {
-        switch(_step) {
+    inline static size_t digitIndex(const IPAddress& s, size_t pos) {
+        switch(pos) {
             case 0: return s._1;
             case 1: return s._2;
             case 2: return s._3;
         }
         return s._4;
     }
-    
+
     //    size_t operator()(const IPAddress* s) const { return (*this)(*s); }
 };
 

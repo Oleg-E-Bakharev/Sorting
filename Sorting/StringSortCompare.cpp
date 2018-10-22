@@ -16,6 +16,7 @@
 #include "LSD.hpp"
 #include "LSD3.hpp"
 #include "MSD.hpp"
+#include "MSD2.hpp"
 //#include "MSDQSortDebug.hpp"
 #include "MSDQSort.hpp"
 
@@ -44,6 +45,7 @@ class StringDigitizer {
 public:
 	using DigitType = uint8_t;
 	const size_t size = 0x7B-0x61; // Размер словаря подсчёта.
+    const static size_t DigitRange = 0x7B-0x61;
 	inline size_t width() const { return _length; }
 	inline size_t step() const { return _step; }
 	inline void setStep(size_t step) const {_step = step;}
@@ -57,13 +59,16 @@ public:
     static inline char digit (const std::string& str, size_t pos) {
         return (pos < str.size()) ? str[pos] : 0;
     }
+    static inline char digitIndex (const std::string& str, size_t pos) {
+        return (pos < str.size()) ? str[pos] - 0x61 : 0;
+    }
 
 	StringDigitizer(size_t length) : _length(length) {}
 };
 
 void stringSortCompare()
 {
-	const size_t N = 30;
+	const size_t N = 4;
 //	StringDigitizer digitizer(N);
 	cout << "Runing stress test\n";
 //	while(true) {
@@ -90,18 +95,22 @@ void stringSortCompare()
 //        for(size_t i = 0; i < v.size(); ++i) v[i] = temp[i];
 //    }) << endl;
 	
-    cout << "lsd3  performance: " << measureSort(v, engine, [&v]{
+    cout << "lsd  performance: " << measureSort(v, engine, [&v]{
         lsdSort3(v.begin(), v.end(), StringDigitizer(N));
     }) << endl;
 
-	cout << "msd  performance: " << measureSort(v, engine, [&v]{
-		vector<string*>result = msdSort(v.begin(), v.end(), StringDigitizer(N));
-		vector<string> temp;
-		temp.reserve(v.size());
-		for(size_t i = 0; i < v.size(); ++i) temp.push_back(*result[i]);
-		for(size_t i = 0; i < v.size(); ++i) v[i] = temp[i];
-	}) << endl;
-	
+//    cout << "msd  performance: " << measureSort(v, engine, [&v]{
+//        vector<string*>result = msdSort(v.begin(), v.end(), StringDigitizer(N));
+//        vector<string> temp;
+//        temp.reserve(v.size());
+//        for(size_t i = 0; i < v.size(); ++i) temp.push_back(*result[i]);
+//        for(size_t i = 0; i < v.size(); ++i) v[i] = temp[i];
+//    }) << endl;
+
+    cout << "msd  performance: " << measureSort(v, engine, [&v]{
+        msdSort2(v.begin(), v.end(), StringDigitizer(N));
+    }) << endl;
+
 //		vector<string*>result = msdSort(v.begin(), v.end(), StringDigitizer(N));
 //		cout << "\npointers:\n";
 //		for( auto& s : result) cout << *s << "\n";

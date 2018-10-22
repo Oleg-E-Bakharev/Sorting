@@ -82,7 +82,6 @@
 		7C4F18CD1FCA1471004EA835 /* hashArray.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = hashArray.hpp; sourceTree = "<group>"; };
 		7C6CBDB91F9D0FF5006DB96B /* StringSortCompare.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StringSortCompare.cpp; sourceTree = "<group>"; };
 		7C6CBDBA1F9D0FF5006DB96B /* StringSortCompare.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = StringSortCompare.hpp; sourceTree = "<group>"; };
-		7C6CBDBC1F9D1F6E006DB96B /* MSDQSortDebug.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MSDQSortDebug.hpp; sourceTree = "<group>"; };
 		7C6D179D1F88F873008C6AC6 /* quickSortDebug.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = quickSortDebug.hpp; sourceTree = "<group>"; };
 		7C8569121F915F0600EEB79C /* MSDQSort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MSDQSort.cpp; sourceTree = "<group>"; };
 		7C8569131F915F0600EEB79C /* MSDQSort.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MSDQSort.hpp; sourceTree = "<group>"; };
@@ -99,6 +98,7 @@
 		7CD169DD1D97CD6000651BF3 /* 23Tree.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = 23Tree.hpp; sourceTree = "<group>"; };
 		7CD169DF1D97D13200651BF3 /* SplayTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplayTree.cpp; sourceTree = "<group>"; };
 		7CD169E01D97D13200651BF3 /* SplayTree.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SplayTree.hpp; sourceTree = "<group>"; };
+		7CD9546B217CEBCC0041CBA1 /* MSD2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MSD2.hpp; sourceTree = "<group>"; };
 		7CEC6BED1D53DB5200F006FE /* BinaryTree.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BinaryTree.hpp; sourceTree = "<group>"; };
 		7CEC6BF01D55240200F006FE /* BinaryTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BinaryTree.cpp; sourceTree = "<group>"; };
 		7CFC473A1F9DED3600A6B2C3 /* LSD2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LSD2.hpp; sourceTree = "<group>"; };
@@ -251,9 +251,9 @@
 				C300B1A5216FCE5200D93B45 /* LSD3.hpp */,
 				C300B1A6216FD27C00D93B45 /* LSD3.cpp */,
 				7C8569131F915F0600EEB79C /* MSDQSort.hpp */,
-				7C6CBDBC1F9D1F6E006DB96B /* MSDQSortDebug.hpp */,
 				7C8569121F915F0600EEB79C /* MSDQSort.cpp */,
 				C34154B21F97688600C3AC46 /* MSD.hpp */,
+				7CD9546B217CEBCC0041CBA1 /* MSD2.hpp */,
 				C34154B11F97688600C3AC46 /* MSD.cpp */,
 				C34154B51F97697A00C3AC46 /* sparseVector.hpp */,
 				C34154B41F97697A00C3AC46 /* sparseVector.cpp */,
