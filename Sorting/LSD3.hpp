@@ -40,7 +40,7 @@ class LSDSorter {
     
 public:
     LSDSorter(It begin, It end, const D& digit) : _counter(digit.size + 1), _begin(begin),
-    _end(end), _temp(end - begin), _resBegin(_temp.begin()), _resEnd(_temp.end()), _pos(digit.size)  {
+    _end(end), _temp(end - begin), _resBegin(_temp.begin()), _resEnd(_temp.end()), _pos(digit.width())  {
         while(_pos != -1) {
             lsdStep_();
             std::swap(_begin, _resBegin);
@@ -48,7 +48,7 @@ public:
             _pos--;
         }
         if (digit.width() % 2) {
-            // число шагов нечетное надо скопировать _temp в исходный массиы.
+            // число шагов нечетное надо скопировать _temp в исходный массив.
             for (It i = _temp.begin(); i != _temp.end(); ++i) {
                 *(_begin++) = *i;
             }
