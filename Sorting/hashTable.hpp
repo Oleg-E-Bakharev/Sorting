@@ -39,11 +39,7 @@ template<> struct Hash<std::string> {
 };
 
 // Хэш-таблица. Item - тип элемента. К - тип ключа.
-// Ключ должен быть доступен как Item::key().
-// Тип значения элемента должен быть доступен как typename Item::ItemType
-// Тип ключа должен быть доступен как typename Item::KeyType
-// Значение элемента должно быть доступно как Item::ValueType
-template <typename Item, typename K = typename Item::KeyType, typename H = Hash<K>> class HashTable {
+template <typename Item, typename Key = Item, typename H = Hash<Key>> class HashTable {
 	// Узел односвязного списка (цепочки) элементов с одинаковым значением хэш-функции.
 	struct Node {
 		Item item;
@@ -59,14 +55,14 @@ template <typename Item, typename K = typename Item::KeyType, typename H = Hash<
 	H _hash; // хэш-функтор.
 	
 	// Линейный поиск элемента в цепочке элементов с одинаковым значением хеш-функии.
-	Link search_(Link l, const K& k) const {
+	Link search_(Link l, const Key& key) const {
 		if ( l == nullptr ) return nullptr;
-		if ( l->item.key() == k ) return l;
-		return search_(l->next, k);
+		if ( l->item == key ) return l;
+		return search_(l->next, key);
 	}
 	
 	// Хэш-функция.
-	size_t hash_( K k ) const { return _hash(k, _capacity); }
+	size_t hash_( const Key& key ) const { return _hash(key, _capacity); }
 	
 	void deleteTable_(Link* heads, size_t capacity) {
 		for ( size_t i = 0; i < capacity; i++ ) {
@@ -82,51 +78,38 @@ public:
 	}
 	
 	// Емкость
-	size_t capacity() { return _capacity; }
+	size_t capacity() const { return _capacity; }
 	
 	// Размер
-	size_t size() { return _count; }
+	size_t size() const { return _count; }
 	
 	// Поиск по ключу
-	const typename Item::ValueType* search( const K& k ) const {
-		Link l = search_( _heads[hash_(k)], k );
-		return l ? &(l->item.value()) : nullptr;
+	const Item* search( const Key& key ) const {
+		Link l = search_( _heads[hash_(key)], key );
+		return l ? &(l->item) : nullptr;
 	}
-	
-	// Поиск по ключу
-	typename Item::ValueType* search( const K& k ) {
-		Link l = search_( _heads[hash_(k)], k );
-		return l ? &(l->item.value()) : nullptr;
-	}
-	
+		
 	// Вставка
-	typename Item::ValueType& insert( const Item& t ) {
-		K k = t.key();
-		size_t i = hash_(k);
-		Link l = search_(_heads[i], k);
+	Item& insert(Item item) {
+        const Key& key = item.key();
+		size_t i = hash_(key);
+		Link l = search_(_heads[i], key);
 		if (l == nullptr) {
-			l = new Node(t, _heads[i]);
+			l = new Node(item, _heads[i]);
 			_heads[i] = l;
 			_count++;
 		} else {
-			l->item = t;
+			l->item = item;
 		}
-		return l->item.value();
+		return l->item;
 	}
-	
-	// Вставка списка
-	void insert(std::initializer_list<Item> Ts) {
-		for( const Item& t : Ts ) {
-			insert(t);
-		}
-	}
-	
+		
 	// Удаление.
-	bool remove(const K& k) {
-		size_t i = hash_(k);
+	bool remove(const Key& key) {
+		size_t i = hash_(key);
 		Link p = _heads[i];
 		Link n = p;
-		for( ; n != nullptr && n->item.key() != k;  n = n->next ) {
+		for( ; n != nullptr && !(n->item == key);  n = n->next ) {
 			if (n != p) p = p->next;
 		}
 		if ( n == nullptr )	return false; // не найдено.
@@ -138,14 +121,13 @@ public:
 		_count--;
 		return true;
 	}
-	
-	// Удаление списка.
-	void remove(std::initializer_list<K> Ks) {
-		for( const K& k : Ks ) {
-			remove(k);
-		}
-	}
-	
+    
+    void remove(std::initializer_list<Key>&& keys) {
+        for (auto key : keys) {
+            remove(key);
+        }
+    }
+		
 	// Рехешитрование с новой емкостью
 	void rehash(size_t newCapacity) {
 		Link* oldTable = _heads;
@@ -155,6 +137,7 @@ public:
 		_heads = new Link[_capacity] {};
 		for( size_t i = 0; i < oldCapacity; i++ ) {
 			for( Link l = oldTable[i]; l != nullptr; l = l->next ) {
+                // В этом месте используется оператор конверсии.
 				insert(l->item);
 			}
 		}
@@ -162,7 +145,7 @@ public:
 	}
 	
 	// Вывод диаграммы заполненности хэш-таблицы.
-	void show() {
+	void show() const {
 		using std::cout;
 		cout << "count: " << size() << std::endl;
 		for( size_t i = 0; i < _capacity; i++ ) {
@@ -184,55 +167,112 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // HashSet.
-template <typename T> struct SetItem {
-    T _value; // значение, оно же ключ.
+
+template <typename T, typename H = Hash<T>> class HashSet {
+    
+    struct SetItem {
+        T _value; // значение, оно же ключ.
+        
+        const T& key() { return _value; }
+        
+        operator T& () {return _value;}
+        operator const T& () const {return _value;}
+        
+        bool operator==(const T& key) const { return _value == key; }
+        
+        SetItem() = default;
+        SetItem(const T& value) : _value(value) {}
+        SetItem(T&& value) : _value (value) {}
+    };
+
+    HashTable<SetItem, T, H> _hashTable;
     
 public:
-    using KeyType = T;
-	using ValueType = T;
-	
-	SetItem(const T& value) : _value(value) {}
-	
-	ValueType& value() {return _value;}
-	const ValueType& value() const {return _value;}
-    const KeyType& key() const {return _value;}
-};
-
-template <typename T, typename H = Hash<T>> class HashSet : public HashTable<SetItem<T>, T, H> {
-	using base = HashTable<SetItem<T>, T, H>;
-public:
-	using base::base; // Использование конструктора базового класса.
-	bool has(const T& t) const { return this->search( t ); }
+    using value_type = T;
+    
+    HashSet(size_t initialCapacity = 10) : _hashTable(initialCapacity) {}
+    
+    // Емкость
+    size_t capacity() const { return _hashTable.capacity(); }
+    
+    // Размер
+    size_t size() const { return _hashTable.size(); }
+    
+    // Поиск по ключу
+    const T* search( const T& key ) const {
+        SetItem* link = _hashTable.search(key);
+        return link ? &(*link) : nullptr;
+    }
+    
+    void insert(const T& value) {_hashTable.insert(value);}
+    void insert(std::initializer_list<T>&& values) { _hashTable.insert(values); }
+    bool remove(const T& key) { return _hashTable.remove(key); }
+    void remove(std::initializer_list<T>&& keys) { _hashTable.remove(std::move(keys)); }
+	bool has(const T& t) const { return _hashTable.search(t); }
+    void show() const { _hashTable.show(); }
+    void rehash(size_t newSize) { _hashTable.rehash(newSize); }
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // HashMap.
-template <typename T, typename K = T> class MapItem {
-    K _key; // ключ.
-    T _value; // значение.
+template <typename T, typename K = T, typename H = Hash<K>> class HashMap {
     
-public:
-	using KeyType = T;
-    using ValueType = K;
-    
-    MapItem(K key, T value) : _key(key), _value(value) {}
-    
-    ValueType& value() {return _value;}
-    const ValueType& value() const {return _value;}
-    const KeyType& key() const {return _key;}
-};
+    // Элемент таблицы.
+    // first - индекс элемента в массиве. Изменять недопустимо! Хотя возможно и это недоделка.
+    // second - значение элемента. Можно менять как угодно.
+    struct Item : std::pair<K, T> { // Пара индекс - значение.
+        using base = std::pair<K, T>;
+        using base::first;
+        using base::second;
+        
+        Item() = default;
+        Item(const Item&) = default;
+        Item(const K& k, const T& t) : base(k, t) {}
+        Item(const base& b) : base(b) {}
+        
+        //bool operator<(const Item& i) const { return first < i.first; }
+        bool operator==(const T& key) const { return first == key; }
+        
+        const T& key() { return first; }
+        
+        operator T& () {return second;}
+        operator const T& () const {return second;}
 
-template <typename T, typename K = T, typename H = Hash<K>> class HashMap : public HashTable<MapItem<T,K>, K, H> {
-	using base = HashTable<MapItem<T,K>, K, H>;
+        friend std::ostream& operator << (std::ostream& os, const Item& it) { return os << "{" << it.first << ", " << it.second << "}"; }
+    };
+
+    using HashTableType = HashTable<Item, K, H>;
+    HashTableType _hashTable;
+    
 public:
-	using base::base; // Использование конструктора базового класса.
-	
-	bool has( const K& k ) { return this->search( k ); }
+    using value_type = std::pair<K, T>;
+    
+    HashMap(size_t initialCapacity = 10) : _hashTable(initialCapacity) {}
+    
+    // Емкость
+    size_t capacity() const { return _hashTable.capacity(); }
+    
+    // Размер
+    size_t size() const { return _hashTable.size(); }
+
+	bool has( const K& k ) { return _hashTable.search( k ); }
 	
 	T& operator[](const K& k) {
-		auto res = this->search(k);
-		return res ? *res : this->insert( {k, T()} );
+		Item* res = const_cast<Item*>(_hashTable.search(k));
+		return res ? *res : _hashTable.insert( {k, T()} );
 	}
+    
+    void insert(const T& value, const K& key) {_hashTable.insert({key, value});}
+    void insert(std::initializer_list<value_type>&& values) {
+        for (auto&& v : values) {
+            _hashTable.insert(v);
+        }
+    }
+    bool remove(const K& key) { return _hashTable.remove(key); }
+    void remove(std::initializer_list<T>&& keys) { _hashTable.remove(std::move(keys)); }
+    bool has(const K& key) const { return _hashTable.search(key); }
+    void show() const { _hashTable.show(); }
+    void rehash(size_t newSize) { _hashTable.rehash(newSize); }
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,45 +281,45 @@ inline void testHashTable() {
 	using namespace std;
 	cout << "\nset:\n";
 	
-	HashSet<string> set(10);
+	HashSet<string> set(11);
 	string strs[] {"s0", "s1", "s2","s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "s12","s13", "s14", "s15", "s16", "s17", "s18", "s19" };
 	for( string& s : strs ) set.insert(s);
-	for( string& s : strs ) assert(set.has(s));
+    for( string& s : strs ) assert(set.has(s));
 	assert(!set.has("s22"));
 	
-	set.remove( {"s17", "s15", "s13", "s11"} );
-	assert(!set.has("s13"));
-	set.show();
-	
-	cout << "rehash to 20\n";
-	set.rehash(20);
-	set.show();
+    set.remove( {"s17", "s15", "s13", "s11"} );
+    assert(!set.has("s13"));
+    set.show();
 
-	cout << "rehash to 10\n";
-	set.rehash(10);
-	set.show();
+    cout << "rehash to 20\n";
+    set.rehash(19);
+    set.show();
+
+    cout << "rehash to 10\n";
+    set.rehash(11);
+    set.show();
 
 	cout << "\nmap:\n";
 	
-	HashMap<string> map(5);
-	
-	map["k1"] = string("s1");
-	cout << "k1 : " << map["k1"] << endl;
-	
-	map["k0"] = string("s0");
-	cout << "k0 : " << map["k0"] << endl;
-	
-	map.insert( {{"k2", "s2"}, {"k3", "s3"}, {"k4", "s4"}, {"k5", "s5"}} );
-	
-	cout << endl;
-	
-	map.show();
-	assert(map.has("k2"));
-	assert(map.remove("k2"));
-	assert(!map.has("k2"));
-	map.remove( {"k0", "k1", "k3", "k4", "k5"} );
-	map.show();
-	assert(map.size() == 0);
+    HashMap<string> map(5);
+//
+    map["k1"] = string("s1");
+    cout << "k1 : " << map["k1"] << endl;
+
+    map["k0"] = string("s0");
+    cout << "k0 : " << map["k0"] << endl;
+
+    map.insert( {{"k2", "s2"}, {"k3", "s3"}, {"k4", "s4"}, {"k5", "s5"}} );
+
+    cout << endl;
+
+    map.show();
+    assert(map.has("k2"));
+    assert(map.remove("k2"));
+    assert(!map.has("k2"));
+    map.remove( {"k0", "k1", "k3", "k4", "k5"} );
+    map.show();
+    assert(map.size() == 0);
 }
 
 #endif /* hashTable_hpp */

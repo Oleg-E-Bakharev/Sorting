@@ -72,7 +72,7 @@ void stringSortCompare()
 //	StringDigitizer digitizer(N);
 	cout << "Runing stress test\n";
 //	while(true) {
-		auto v = generateRandomStrings(500000, N);
+		auto v = generateRandomStrings(100000, N);
 		auto c = v;
 		auto engine = std::default_random_engine{ std::random_device{}() };
 		

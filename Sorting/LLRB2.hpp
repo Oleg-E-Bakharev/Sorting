@@ -16,14 +16,15 @@
 
 // Left Leaning Red Black Tree https://www.cs.princeton.edu/~rs/talks/LLRB/RedBlack.pdf
 // http://www.cs.princeton.edu/~rs/talks/LLRB/LLRB.pdf
+// Дерево размером с двусвязный список.
 template <typename T, typename K = T> class LLRB2 {
     
     struct Node {
         T item;
-        BitPtr<Node> l;
-        BitPtr<Node> r;
+        BitPtr<Node> l = nullptr;
+        BitPtr<Node> r = nullptr;
         
-        Node(T item):item(item), l(nullptr), r(nullptr) {
+        Node(T item): item(item) {
             assert(!l && !r);
         }
         
@@ -38,11 +39,11 @@ template <typename T, typename K = T> class LLRB2 {
     
     Link _root = nullptr;
     
-    bool isRed_(const Link& n) const {
+    inline bool isRed_(const Link& n) const {
         return n.bit();
     }
     
-    void setRed_(Link& n, bool set) {
+    inline void setRed_(Link& n, bool set) {
         if (!n) {
             assert(set == false);
             return;
@@ -60,14 +61,14 @@ template <typename T, typename K = T> class LLRB2 {
     }
     
     // Меняет цвета h и его детей.
-    void colorFlip_(Link& h) {
+    inline void colorFlip_(Link& h) {
         setRed_(h, !isRed_(h));
         setRed_(h->l, !isRed_(h->l));
         setRed_(h->r, !isRed_(h->r));
     }
     
     // Поворот влево. h->r становится на место h. Поворачиваем только красные узлы.
-    void rotL_(Link& h) {
+    inline void rotL_(Link& h) {
         Link x = h->r;
         setRed_(x, isRed_(h));
         setRed_(h, true);
@@ -77,7 +78,7 @@ template <typename T, typename K = T> class LLRB2 {
     }
     
     // Поворот вправо. h-l становится на место h. Поворачиваем только красные узлы.
-    void rotR_(Link& h) {
+    inline void rotR_(Link& h) {
         Link x = h->l;
         setRed_(x, isRed_(h));
         setRed_(h, true);
@@ -104,7 +105,7 @@ template <typename T, typename K = T> class LLRB2 {
     }
     
     // балансировка после вставки / удаления узла.
-    void fix_(Link& h) {
+    inline void fix_(Link& h) {
         if (isRed_(h->r) && !isRed_(h->l)) {
             rotL_(h);
         }
@@ -116,7 +117,7 @@ template <typename T, typename K = T> class LLRB2 {
         }
     }
     
-    void moveRedLeft_(Link& h) {
+    inline void moveRedLeft_(Link& h) {
         colorFlip_(h);
         if (isRed_(h->r->l)) {
             rotR_(h->r);
@@ -125,7 +126,7 @@ template <typename T, typename K = T> class LLRB2 {
         }
     }
     
-    void moveRedRight_(Link& h) {
+    inline void moveRedRight_(Link& h) {
         colorFlip_(h);
         if (isRed_(h->l->l)) {
             rotR_(h);

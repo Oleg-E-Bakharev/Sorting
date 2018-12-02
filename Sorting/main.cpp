@@ -206,7 +206,7 @@ int main(int argc, const char * argv[]) {
 //    testCountingSort();
 //    testLSD3();
 //    testMSD();
-    stringSortCompare();
+//    stringSortCompare();
 //    testMSDQSort();
 //    testSparseVector();
 //    testSorting();
@@ -219,14 +219,14 @@ int main(int argc, const char * argv[]) {
 //    testAWLTree();
 //	testMapSet();
 //    testBinaryTree2();
-//	testLLRB();
+//    testLLRB();
 //    testLLRB2();
 //    testRBTree2();
 //    testForwardList();
 //    testArray();
 //    testDeque();
 //    testBinaryHeap();
-//	testHashTable();
+    testHashTable();
 //    testHashArray();
 	
 //	testBitStream();
