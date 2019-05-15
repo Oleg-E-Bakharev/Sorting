@@ -21,18 +21,27 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // Декартово дерево по неявному ключу. https://habr.com/post/102364/
 
-template <typename T> class ImplicitTreap {
+template <typename T>
+class ITMaxKernel {
+public:
+    T max(size_t l, size_t r) {
+        
+    }
+protected:
+    
+};
+
+template <typename T, typename ...Kernels> class ImplicitTreap {
     
     // Узел.
     struct Node {
         T item;
-        size_t size = 1; // Неявный ключ.
-        size_t priority; // Случайный приоритет.
+        size_t size = 1; // Количество потомков.
         Node* l = nullptr; // Левый потомок.
         Node* r = nullptr; // Правый потомок.
         bool reversed = false; // Флаг инверсиии для обращения элементов.
         
-        Node(const T& item, size_t priority):item(item), priority(priority) {}
+        Node(const T& item):item(item) {}
         
         friend std::ostream& operator << (std::ostream& os, const Node& it) {
             os << it.item;
@@ -105,14 +114,22 @@ template <typename T> class ImplicitTreap {
         }
     }
     
+    size_t log2_(size_t i) const {
+        // вычисляем целочисленный логарифм 2, меньший или равный i
+        size_t log = 1;
+        while (1 << log < i) log++;
+        return log - 1;
+    }
+
     // Слияние поддеревьев по приоритету.
     void merge_(Link& n, Link l, Link r) {
         push_(l);
         push_(r);
-        
+
         if (!l || !r) {
             n = l ? l : r;
-        } else if (r->priority < l->priority) {
+            // Вероятность вставки равна 1 / высоту узла.
+        } else if (_random() > _random.max() / (2 + log2_(n->size))) {
             merge_(l->r, l->r, r);
             n = l;
         } else {
@@ -177,7 +194,7 @@ public:
         assert(pos <= size_(_root));
         Link l, r;
         split_(_root, pos, l, r);
-        merge_(_root, l, new Node(item, _random()));
+        merge_(_root, l, new Node(item));
         merge_(_root, _root, r);
     }
     

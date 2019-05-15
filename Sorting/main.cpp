@@ -214,7 +214,7 @@ int main(int argc, const char * argv[]) {
 //    testEratosfen(1000);
 //    testTree();
 //    testRandomBST();
-//    testImplicitTreap();
+    testImplicitTreap();
 //    testSplayTree();
 //    testAWLTree();
 //	testMapSet();
@@ -226,7 +226,7 @@ int main(int argc, const char * argv[]) {
 //    testArray();
 //    testDeque();
 //    testBinaryHeap();
-    testHashTable();
+//    testHashTable();
 //    testHashArray();
 	
 //	testBitStream();

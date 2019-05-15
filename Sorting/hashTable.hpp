@@ -303,10 +303,10 @@ inline void testHashTable() {
 	
     HashMap<string> map(5);
 //
-    map["k1"] = string("s1");
+    map["k1"] = "s1";
     cout << "k1 : " << map["k1"] << endl;
 
-    map["k0"] = string("s0");
+    map["k0"] = "s0";
     cout << "k0 : " << map["k0"] << endl;
 
     map.insert( {{"k2", "s2"}, {"k3", "s3"}, {"k4", "s4"}, {"k5", "s5"}} );

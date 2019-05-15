@@ -18,22 +18,21 @@
 template<typename T = size_t, typename V = std::vector<T>>
 size_t lcaNaive1(const V& p, T i, T j) {
     using namespace std;
-    vector<size_t> search; // вектор обхода.
-    search.assign(p.size(), 0);
+    vector<bool> visited(p.size(), false); // вектор обхода.
     // Поднимаемся параллельно по узлам помечая пройденные пока не встретим уже посещенный. На нем останавливаемся.
     while(i != -1 && j != -1) {
         if(i != -1) {
-            if (search[i] == 1) {
+            if (visited[i]) {
                 return i;
             }
-            search[i] = 1;
+            visited[i] = true;
             i = p[i];
         }
         if(j != -1) {
-            if (search[j] == 1) {
+            if (visited[j]) {
                 return j;
             }
-            search[j] = 1;
+            visited[j] = true;
             j = p[j];
         }
     }

@@ -8,45 +8,67 @@
 
 #include "ImplicitTreap.hpp"
 
+using namespace std;
+
 void testImplicitTreap()
 {
     ImplicitTreap<int> tree{0,1,2,3,14,5,6,7,8,9};
+    cout << tree;
     auto treeInfo = tree.info();
-    std::cout << treeInfo;
+    cout << treeInfo;
     int i = tree[0];
     assert(i == 0);
     i = tree[9];
     assert(i == 9);
     
-//    for (int i = 0; i < 10; i++) {
-        tree.removeAt(5);
-        std::cout << treeInfo;
-        tree.insertAt(5, 5);
-        std::cout << treeInfo;
-//    }
+    cout << "remove 5\n";
+    tree.removeAt(5);
+    std::cout << treeInfo;
+    
+    cout << "insert 5\n";
+    tree.insertAt(5, 5);
+    std::cout << treeInfo;
+
+    cout << "remove 0\n";
     tree.removeAt(0);
     std::cout << treeInfo;
+    
+    cout << "insert 0\n";
     tree.insertAt(0, 0);
     std::cout << treeInfo;
     
+    cout << "remove 9\n";
     tree.removeAt(9);
     std::cout << treeInfo;
+    
+    cout << "insert 9\n";
     tree.insertAt(9, 9);
     std::cout << treeInfo;
     
+    cout << tree;
+    
+    cout << "shift left 4\n";
+    tree.shiftLeft(4);
     std::cout << tree;
-    
-//    tree.shiftLeft(4);
-//    std::cout << tree;
-//
-//    tree.shiftRight(1);
-//    std::cout << tree;
-    
-//    tree.reverse(1, 9);
-//    std::cout << treeInfo;
-//    std::cout << tree;
-//    std::cout << treeInfo;
 
+    cout << "shift right 4\n";
+    tree.shiftRight(4);
+    std::cout << tree;
+
+    cout << "\nreverse 1, 9\n";
+    tree.reverse(1, 9);
+    std::cout << treeInfo;
+    std::cout << tree;
+    std::cout << treeInfo;
+
+    cout << "reverse 1, 9\n";
+    tree.reverse(1, 9);
+    std::cout << treeInfo;
+    std::cout << tree;
+    std::cout << treeInfo;
+    
+
+    cout << "reverse\n";
     tree.reverse();
     std::cout << treeInfo;
     std::cout << tree;
